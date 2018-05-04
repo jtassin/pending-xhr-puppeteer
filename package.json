@@ -1,0 +1,17 @@
+{
+  "name": "pending-xhr-puppeteer",
+  "version": "1.0.0",
+  "description": "Small tool for wait that all xhr are finished in pupeteer",
+  "main": "lib/index.js",
+  "repository": "git@github.com:jtassin/pending-xhr-puppeteer.git",
+  "author": "julien.tassin.pro@gmail.com",
+  "license": "MIT",
+  "private": false,
+  "devDependencies": {
+    "jest": "^22.4.3",
+    "puppeteer": "^1.3.0"
+  },
+  "scripts": {
+    "test": "jest"
+  }
+}
