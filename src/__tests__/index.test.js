@@ -100,7 +100,10 @@ beforeEach(async () => {
   backendServer = http.createServer(backendRequestHandler);
   await backendServer.listen(xhrBackendPort);
 
-  const args = ['--no-sandbox'];
+  const args = [];
+  if (process.env.CI) {
+    args.push('--no-sandbox');
+  }
   browser = await puppeteer.launch({
     headless: true,
     args,
