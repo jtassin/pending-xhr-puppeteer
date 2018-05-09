@@ -28,7 +28,7 @@
     "prettier:write":
       "prettier --single-quote --trailing-comma es5 --write src/**/*",
     "lint": "eslint src",
-    "test": "jest",
+    "test": "jest --forceExit",
     "test:coverage": "jest --coverage --forceExit",
     "precommit": "lint-staged"
   },
