@@ -33,7 +33,7 @@
     "test": "jest --forceExit",
     "test:coverage": "jest --coverage --forceExit",
     "precommit": "lint-staged",
-    "build": "rollup src/index.js --o lib/index.js --f cjs"
+    "build": "rollup -c"
   },
   "lint-staged": {
     "*.{js,json,css,md}": ["prettier --write", "git add"]
