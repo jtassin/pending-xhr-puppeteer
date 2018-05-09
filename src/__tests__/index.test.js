@@ -1,9 +1,9 @@
-const PendingXHR = require('../index').PendingXHR;
-const http = require('http');
-const puppeteer = require('puppeteer');
+const PendingXHR = require("../index").PendingXHR;
+const http = require("http");
+const puppeteer = require("puppeteer");
 const port = 8907;
 const xhrBackendPort = 8908;
-const util = require('util');
+const util = require("util");
 // const sleep = util.promisify(setTimeout);
 
 function timeout(ms) {
@@ -13,7 +13,6 @@ async function sleep(delay) {
   await timeout(delay);
   return;
 }
-
 
 const OK_NO_XHR = `
 <html>
@@ -66,13 +65,13 @@ setTimeout(() => {
 `;
 
 const requestHandler = (request, response) => {
-  if (request.url === '/with_infinite_xhr') {
+  if (request.url === "/with_infinite_xhr") {
     response.statusCode = 200;
     response.end(OK_WITH_1_SLOW_XHR);
-  } else if (request.url === '/with_xhr') {
+  } else if (request.url === "/with_xhr") {
     response.statusCode = 200;
     response.end(OK_WITH_1_XHR);
-  } else if (request.url === '/with_xhr_failing') {
+  } else if (request.url === "/with_xhr_failing") {
     response.statusCode = 200;
     response.end(OK_WITH_1_XHR);
   } else {
@@ -82,15 +81,15 @@ const requestHandler = (request, response) => {
 };
 
 const backendRequestHandler = (request, response) => {
-  if (request.url === '/infinite') {
+  if (request.url === "/infinite") {
     // This xhr will never end
-  } else if (request.url === '/fail') {
+  } else if (request.url === "/fail") {
     response.statusCode = 500;
-    response.end('boom');
+    response.end("boom");
   } else {
     response.end();
   }
-}
+};
 
 let server;
 let backendServer;
@@ -115,17 +114,16 @@ afterEach(async () => {
   await backendServer.close();
 });
 
-describe('PendingXHR', () => {
-
-  describe('pendingXhrCount', () => {
-    it('returns 0 if no xhr pending count', async () => {
+describe("PendingXHR", () => {
+  describe("pendingXhrCount", () => {
+    it("returns 0 if no xhr pending count", async () => {
       const page = await browser.newPage();
       const pendingXHR = new PendingXHR(page);
       await page.goto(`http://localhost:${port}/no_xhr`);
       expect(pendingXHR.pendingXhrCount()).toEqual(0);
     });
 
-    it('returns the xhr pending count', async () => {
+    it("returns the xhr pending count", async () => {
       const page = await browser.newPage();
       const pendingXHR = new PendingXHR(page);
       await page.goto(`http://localhost:${port}/with_infinite_xhr`);
@@ -134,15 +132,15 @@ describe('PendingXHR', () => {
     });
   });
 
-  describe('waitForAllXhrFinished', async () => {
-    it('returns immediatly if no xhr pending count', async () => {
+  describe("waitForAllXhrFinished", async () => {
+    it("returns immediatly if no xhr pending count", async () => {
       const page = await browser.newPage();
       const pendingXHR = new PendingXHR(page);
       await page.goto(`http://localhost:${port}/no_xhr`);
       await pendingXHR.waitForAllXhrFinished();
     });
 
-    it('waits for all xhr to end', async () => {
+    it("waits for all xhr to end", async () => {
       const page = await browser.newPage();
       const pendingXHR = new PendingXHR(page);
       await page.goto(`http://localhost:${port}/with_xhr`);
@@ -151,7 +149,7 @@ describe('PendingXHR', () => {
       expect(pendingXHR.pendingXhrCount()).toEqual(0);
     });
 
-    it('handle correctly failed xhr', async () => {
+    it("handle correctly failed xhr", async () => {
       const page = await browser.newPage();
       const pendingXHR = new PendingXHR(page);
       await page.goto(`http://localhost:${port}/with_xhr_failing`);
