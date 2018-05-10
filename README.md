@@ -1,8 +1,6 @@
 # Pending XHR Puppeteer
 
-<p align="center">
 [![Build Status](https://travis-ci.org/jtassin/pending-xhr-puppeteer.svg?branch=master)](https://travis-ci.org/jtassin/pending-xhr-puppeteer)
-</p>
 
 <p align="center">
   | <b><a href="#introduction">Introduction</a></b>
