@@ -1,5 +1,6 @@
 # Pending XHR Puppeteer
 
+[![npm version](https://badge.fury.io/js/pending-xhr-puppeteer.svg)](https://badge.fury.io/js/pending-xhr-puppeteer)
 [![Build Status](https://travis-ci.org/jtassin/pending-xhr-puppeteer.svg?branch=master)](https://travis-ci.org/jtassin/pending-xhr-puppeteer)
 
 <p align="center">
