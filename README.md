@@ -76,4 +76,4 @@ yarn
 yarn test
 ```
 
-Merge request and issues are welcome.
+Merge requests and issues are welcome.
