@@ -12,7 +12,7 @@
 
 ## Introduction
 
-Pending XHR Puppeteer is a tool that detect when their is xhr requests not yet finished. You can use it to have a xhr requests count or to wait for all xhr requests to be finished.
+Pending XHR Puppeteer is a tool that detect when there is xhr requests not yet finished. You can use it to have a xhr requests count or to wait for all xhr requests to be finished.
 
 ## Installation
 
