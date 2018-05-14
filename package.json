@@ -1,6 +1,6 @@
 {
   "name": "puppeteer-pending-xhr",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Small tool for wait that all xhr are finished in pupeteer",
   "main": "lib/index.js",
   "homepage": "https://github.com/jtassin/pending-xhr-puppeteer",
@@ -47,7 +47,7 @@
     "test:coverage": "jest --coverage --forceExit",
     "precommit": "lint-staged",
     "build": "rollup -c",
-    "publish:patch": "yarn version --patch && yarn publish"
+    "publish:patch": "yarn publish --patch"
   },
   "lint-staged": {
     "*.{js,json,css,md}": [
