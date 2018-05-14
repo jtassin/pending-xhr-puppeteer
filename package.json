@@ -40,7 +40,8 @@
     "test": "jest --forceExit",
     "test:coverage": "jest --coverage --forceExit",
     "precommit": "lint-staged",
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "publish:patch": "yarn version --patch && yarn publish"
   },
   "lint-staged": {
     "*.{js,json,css,md}": ["prettier --write", "git add"]
