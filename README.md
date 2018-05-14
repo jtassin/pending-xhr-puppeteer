@@ -1,6 +1,6 @@
 # Pending XHR Puppeteer
 
-[![npm version](https://badge.fury.io/js/pending-xhr-puppeteer.svg)](https://badge.fury.io/js/pending-xhr-puppeteer)
+[![npm version](https://badge.fury.io/js/puppeteer-pending-xhr.svg)](https://badge.fury.io/js/puppeteer-pending-xhr)
 [![Build Status](https://travis-ci.org/jtassin/pending-xhr-puppeteer.svg?branch=master)](https://travis-ci.org/jtassin/pending-xhr-puppeteer)
 
 <p align="center">
@@ -19,13 +19,13 @@ Pending XHR Puppeteer is a tool that detect when there is xhr requests not yet f
 To install with yarn :
 
 ```bash
-yarn add pending-xhr-puppeteer -D
+yarn add puppeteer-pending-xhr -D
 ```
 
 To install with npm :
 
 ```bash
-npm install pending-xhr-puppeteer --save-dev
+npm install puppeteer-pending-xhr --save-dev
 ```
 
 ## Usage
@@ -34,7 +34,7 @@ npm install pending-xhr-puppeteer --save-dev
 
 ```javascript
 const puppeteer = require('puppeteer');
-const { PendingXHR } = require('pending-xhr-puppeteer');
+const { PendingXHR } = require('puppeteer-pending-xhr');
 
 const browser = await puppeteer.launch({
   headless: true,
@@ -53,7 +53,7 @@ await pendingXHR.waitForAllXhrFinished();
 
 ```javascript
 const puppeteer = require('puppeteer');
-const { PendingXHR } = require('pending-xhr-puppeteer');
+const { PendingXHR } = require('puppeteer-pending-xhr');
 
 const browser = await puppeteer.launch({
   headless: true,
