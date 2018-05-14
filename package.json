@@ -1,6 +1,6 @@
 {
   "name": "puppeteer-pending-xhr",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Small tool for wait that all xhr are finished in pupeteer",
   "main": "lib/index.js",
   "homepage": "https://github.com/jtassin/pending-xhr-puppeteer",
@@ -14,7 +14,14 @@
   "author": "Julien TASSIN",
   "license": "MIT",
   "private": false,
-  "keywords": ["puppeteer", "xhr", "pending", "wait", "nodejs", "e2e"],
+  "keywords": [
+    "puppeteer",
+    "xhr",
+    "pending",
+    "wait",
+    "nodejs",
+    "e2e"
+  ],
   "devDependencies": {
     "eslint": "^4.19.1",
     "eslint-config-prettier": "^2.9.0",
@@ -34,8 +41,7 @@
     ]
   },
   "scripts": {
-    "prettier:write":
-      "prettier --single-quote --trailing-comma es5 --write src/**/*",
+    "prettier:write": "prettier --single-quote --trailing-comma es5 --write src/**/*",
     "lint": "eslint src",
     "test": "jest --forceExit",
     "test:coverage": "jest --coverage --forceExit",
@@ -44,6 +50,9 @@
     "publish:patch": "yarn version --patch && yarn publish"
   },
   "lint-staged": {
-    "*.{js,json,css,md}": ["prettier --write", "git add"]
+    "*.{js,json,css,md}": [
+      "prettier --write",
+      "git add"
+    ]
   }
 }
