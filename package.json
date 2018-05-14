@@ -1,5 +1,5 @@
 {
-  "name": "pending-xhr-puppeteer",
+  "name": "puppeteer-pending-xhr",
   "version": "1.0.2",
   "description": "Small tool for wait that all xhr are finished in pupeteer",
   "main": "lib/index.js",
