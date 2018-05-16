@@ -1,6 +1,6 @@
 {
   "name": "pending-puppeteer-xhr",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Small tool for wait that all xhr are finished in pupeteer",
   "main": "lib/index.js",
   "homepage": "https://github.com/jtassin/pending-xhr-puppeteer",
