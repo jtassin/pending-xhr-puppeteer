@@ -1,6 +1,7 @@
 {
   "name": "pending-xhr-puppeteer",
-  "version": "1.0.12",
+  "node": ">= 8.0.0",
+  "version": "1.0.13",
   "description": "Small tool for wait that all xhr are finished in pupeteer",
   "main": "lib/index.js",
   "homepage": "https://github.com/jtassin/pending-xhr-puppeteer",
@@ -14,17 +15,24 @@
   "author": "Julien TASSIN",
   "license": "MIT",
   "private": false,
-  "keywords": ["puppeteer", "xhr", "pending", "wait", "nodejs", "e2e"],
+  "keywords": [
+    "puppeteer",
+    "xhr",
+    "pending",
+    "wait",
+    "nodejs",
+    "e2e"
+  ],
   "devDependencies": {
-    "eslint": "^4.19.1",
-    "eslint-config-prettier": "^2.9.0",
-    "eslint-plugin-jest": "^21.15.1",
-    "husky": "^0.14.3",
-    "jest": "^22.4.3",
-    "lint-staged": "^7.1.0",
-    "prettier": "1.12.1",
-    "puppeteer": "^1.3.0",
-    "rollup": "^0.58.2"
+    "eslint": "^5.11.1",
+    "eslint-config-prettier": "^3.3.0",
+    "eslint-plugin-jest": "^22.1.2",
+    "husky": "^1.3.1",
+    "jest": "^23.6.0",
+    "lint-staged": "^8.1.0",
+    "prettier": "^1.15.3",
+    "puppeteer": "^1.11.0",
+    "rollup": "^1.0.0"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -34,8 +42,7 @@
     ]
   },
   "scripts": {
-    "prettier:write":
-      "prettier --single-quote --trailing-comma es5 --write src/**/*",
+    "prettier:write": "prettier --single-quote --trailing-comma es5 --write src/**/*",
     "lint": "eslint src",
     "test": "jest --forceExit",
     "test:coverage": "jest --coverage --forceExit",
@@ -44,6 +51,9 @@
     "publish:patch": "yarn publish --patch"
   },
   "lint-staged": {
-    "*.{js,json,css,md}": ["prettier --write", "git add"]
+    "*.{js,json,css,md}": [
+      "prettier --write",
+      "git add"
+    ]
   }
 }
