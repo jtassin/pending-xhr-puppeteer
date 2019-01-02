@@ -1,5 +1,6 @@
 {
   "name": "pending-xhr-puppeteer",
+  "node": ">= 8.0.0",
   "version": "1.0.13",
   "description": "Small tool for wait that all xhr are finished in pupeteer",
   "main": "lib/index.js",
@@ -23,9 +24,9 @@
     "e2e"
   ],
   "devDependencies": {
-    "eslint": "^4.19.1",
-    "eslint-config-prettier": "^2.9.0",
-    "eslint-plugin-jest": "^21.15.1",
+    "eslint": "^5.11.1",
+    "eslint-config-prettier": "^3.3.0",
+    "eslint-plugin-jest": "^22.1.2",
     "husky": "^0.14.3",
     "jest": "^22.4.3",
     "lint-staged": "^7.1.0",
