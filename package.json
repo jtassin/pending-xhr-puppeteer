@@ -29,10 +29,10 @@
     "eslint-plugin-jest": "^22.1.2",
     "husky": "^0.14.3",
     "jest": "^22.4.3",
-    "lint-staged": "^7.1.0",
+    "lint-staged": "^8.1.0",
     "prettier": "^1.15.3",
     "puppeteer": "^1.11.0",
-    "rollup": "^0.58.2"
+    "rollup": "^1.0.0"
   },
   "jest": {
     "collectCoverageFrom": [
