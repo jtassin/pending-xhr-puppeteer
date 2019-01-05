@@ -83,10 +83,7 @@ let backendServer;
 let browser;
 
 describe('PendingXHR', () => {
-  beforeEach(async () => {
-    backendServer = http.createServer(backendRequestHandler);
-    await backendServer.listen(xhrBackendPort);
-
+  beforeAll(async () => {
     const args = [];
     if (process.env.CI) {
       args.push('--no-sandbox');
@@ -97,8 +94,16 @@ describe('PendingXHR', () => {
     });
   });
 
-  afterEach(async () => {
+  beforeEach(async () => {
+    backendServer = http.createServer(backendRequestHandler);
+    await backendServer.listen(xhrBackendPort);
+  });
+
+  afterAll(async () => {
     await browser.close();
+  });
+
+  afterEach(async () => {
     if (request1Resolver) {
       await request1Resolver();
     }
@@ -167,6 +172,31 @@ describe('PendingXHR', () => {
         request1Resolver([200, '']);
       });
       await pendingXHR.waitForAllXhrFinished();
+      expect(pendingXHR.pendingXhrCount()).toEqual(0);
+    });
+
+    it('works with Promise.race', async () => {
+      await startServerReturning(OK_WITH_1_XHR);
+      const page = await browser.newPage();
+      const pendingXHR = new PendingXHR(page);
+      await page.goto(`http://localhost:${port}/go`);
+      setTimeout(() => {
+        request1Resolver([200, '']);
+      }, 200);
+      await Promise.race([
+        pendingXHR.waitForAllXhrFinished(),
+        new Promise(resolve => {
+          setTimeout(resolve, 100);
+        }),
+      ]);
+      expect(pendingXHR.pendingXhrCount()).toEqual(1);
+
+      await Promise.race([
+        pendingXHR.waitForAllXhrFinished(),
+        new Promise(resolve => {
+          setTimeout(resolve, 300);
+        }),
+      ]);
       expect(pendingXHR.pendingXhrCount()).toEqual(0);
     });
 

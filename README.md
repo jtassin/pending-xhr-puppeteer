@@ -67,6 +67,33 @@ console.log(pendingXHR.pendingXhrCount());
 // Display the number of xhr pending
 ```
 
+### Usage with Promise.race
+
+If you need to wait xhrs but not longer than a specific time, You can race **pending-xhr-puppeteer** and `setTimeout` in a `Promise.race`.
+
+```javascript
+const puppeteer = require('puppeteer');
+const { PendingXHR } = require('pending-xhr-puppeteer');
+
+const browser = await puppeteer.launch({
+  headless: true,
+  args,
+});
+
+const page = await browser.newPage();
+const pendingXHR = new PendingXHR(page);
+await page.goto(`http://page-with-xhr`);
+// We will wait max 1 seconde for xhrs
+await Promise.race([
+  pendingXHR.waitForAllXhrFinished(),
+  new Promise(resolve => {
+    setTimeout(resolve, 1000);
+  }),
+]);
+console.log(pendingXHR.pendingXhrCount());
+// May or may not have pending xhrs
+```
+
 ## Contribute
 
 ```bash
