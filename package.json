@@ -44,8 +44,8 @@
   "scripts": {
     "prettier:write": "prettier --single-quote --trailing-comma es5 --write src/**/*",
     "lint": "eslint src",
-    "test": "jest --forceExit",
-    "test:coverage": "jest --coverage --forceExit",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
     "precommit": "lint-staged",
     "build": "rollup -c",
     "publish:patch": "yarn publish --patch"

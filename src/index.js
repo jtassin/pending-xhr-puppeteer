@@ -6,24 +6,24 @@ class PendingXHR {
     this.pendingXhrs = new Set();
     this.finishedWithSuccessXhrs = new Set();
     this.finishedWithErrorsXhrs = new Set();
+    this.promisees = [];
     page.on('request', request => {
       if (request.resourceType() === this.resourceType) {
         this.pendingXhrs.add(request);
-        if (!this.promise) {
-          this.promise = new Promise(resolve => {
-            this.resolver = resolve;
-          });
-        }
+        this.promisees.push(
+          new Promise(resolve => {
+            request.resolver = resolve;
+          }),
+        );
       }
     });
     page.on('requestfailed', request => {
       if (request.resourceType() === this.resourceType) {
         this.pendingXhrs.delete(request);
         this.finishedWithErrorsXhrs.add(request);
-        if (this.resolver) {
-          this.resolver();
-          delete this.promise;
-          delete this.resolver;
+        if (request.resolver) {
+          request.resolver();
+          delete request.resolver;
         }
       }
     });
@@ -31,10 +31,9 @@ class PendingXHR {
       if (request.resourceType() === this.resourceType) {
         this.pendingXhrs.delete(request);
         this.finishedWithSuccessXhrs.add(request);
-        if (this.resolver) {
-          this.resolver();
-          delete this.promise;
-          delete this.resolver;
+        if (request.resolver) {
+          request.resolver();
+          delete request.resolver;
         }
       }
     });
@@ -44,9 +43,7 @@ class PendingXHR {
     if (this.pendingXhrCount() === 0) {
       return true;
     }
-    if (this.promise) {
-      await this.promise;
-    }
+    await Promise.all(this.promisees);
   }
 
   pendingXhrCount() {
