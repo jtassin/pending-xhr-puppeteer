@@ -98,13 +98,18 @@ describe('PendingXHR', () => {
   });
 
   afterEach(async () => {
-    await server.close();
-    await backendServer.close();
+    await browser.close();
+    if (request1Resolver) {
+      await request1Resolver();
+    }
   });
 
-  afterAll(async () => {
-    // The server needs time to shutdown
-    await sleep(1000);
+  afterEach(cb => {
+    backendServer.close(cb);
+  });
+
+  afterEach(cb => {
+    server.close(cb);
   });
 
   async function startServerReturning(html) {
@@ -125,12 +130,21 @@ describe('PendingXHR', () => {
     });
 
     it('returns the xhr pending count', async () => {
-      await startServerReturning(OK_WITH_1_XHR);
+      await startServerReturning(OK_WITH_2_XHR);
       const page = await browser.newPage();
       const pendingXHR = new PendingXHR(page);
       await page.goto(`http://localhost:${port}/go`);
-      await sleep(20);
+      expect(pendingXHR.pendingXhrCount()).toEqual(2);
+      setTimeout(() => {
+        request1Resolver([200, 'first xhr finished']);
+      });
+      await sleep(10);
       expect(pendingXHR.pendingXhrCount()).toEqual(1);
+      setTimeout(() => {
+        request2Resolver([200, 'second xhr finished']);
+      });
+      await sleep(10);
+      expect(pendingXHR.pendingXhrCount()).toEqual(0);
     });
   });
 
