@@ -94,6 +94,20 @@ console.log(pendingXHR.pendingXhrCount());
 // May or may not have pending xhrs
 ```
 
+## Wait for all xhr triggered by an event
+
+You can use this lib to wx ait for event triggered by any event from the UI (click, typing, ...).
+
+Exemple :
+
+```javascript
+await page.goto(`http://page-with-xhr`);
+await page.click('.my-selector'); // This action will trigger some xhr
+// Here all xhr requests triggered by the click are not finished
+await pendingXHR.waitForAllXhrFinished();
+// Here all xhr requests triggered by the click are finished
+```
+
 ## Contribute
 
 ```bash
