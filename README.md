@@ -96,7 +96,7 @@ console.log(pendingXHR.pendingXhrCount());
 
 ## Wait for all xhr triggered by an event
 
-You can use this lib to wx ait for event triggered by any event from the UI (click, typing, ...).
+You can use this lib to wait for xhr triggered by any event from the UI (click, typing, ...).
 
 Exemple :
 
