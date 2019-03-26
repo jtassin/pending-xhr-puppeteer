@@ -153,7 +153,7 @@ describe('PendingXHR', () => {
     });
   });
 
-  describe('waitForAllXhrFinished', async () => {
+  describe('waitForAllXhrFinished', () => {
     it('returns immediatly if no xhr pending count', async () => {
       await startServerReturning(OK_NO_XHR);
       const page = await browser.newPage();
