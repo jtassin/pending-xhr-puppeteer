@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
+    "declaration": true,
+    "declarationDir": "./dist",
     "outDir": "build",
-    "module": "commonjs",
+    "module": "ES2015",
     "target": "es5",
-    "lib": ["es6"],
+    "lib": ["ES2015"],
     "sourceMap": true,
-    "allowJs": true,
     "moduleResolution": "node",
     "rootDir": "src",
     "noImplicitReturns": true,

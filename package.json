@@ -5,6 +5,7 @@
   "description": "Small tool for wait that all xhr are finished in pupeteer",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "module": "lib/es.js",
   "homepage": "https://github.com/jtassin/pending-xhr-puppeteer",
   "repository": {
     "type": "git",
@@ -37,6 +38,7 @@
     "puppeteer": "1.11.0",
     "rollup": "1.0.0",
     "rollup-plugin-typescript": "^1.0.0",
+    "rollup-plugin-typescript2": "^0.20.1",
     "ts-jest": "^24.0.0",
     "tsc": "^1.20150623.0",
     "tslib": "^1.9.3",

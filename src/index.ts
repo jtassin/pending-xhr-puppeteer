@@ -4,7 +4,7 @@ interface ResolvableRequest extends Request {
   resolver: () => void; 
 }
 
-class PendingXHR {
+export class PendingXHR {
 
   page: Page;
   resourceType: string;
@@ -64,5 +64,3 @@ class PendingXHR {
     return this.pendingXhrs.size;
   }
 }
-
-module.exports.PendingXHR = PendingXHR;
