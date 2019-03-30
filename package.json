@@ -1,7 +1,7 @@
 {
   "name": "pending-xhr-puppeteer",
   "node": ">= 8.0.0",
-  "version": "1.0.17",
+  "version": "2.0.0",
   "description": "Small tool for wait that all xhr are finished in pupeteer",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
