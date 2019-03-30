@@ -28,6 +28,7 @@
   "devDependencies": {
     "@types/jest": "^24.0.11",
     "@types/puppeteer": "^1.12.3",
+    "auto-changelog": "^1.12.0",
     "eslint": "5.15.3",
     "eslint-config-prettier": "3.6.0",
     "eslint-plugin-jest": "22.4.1",
@@ -36,6 +37,7 @@
     "lint-staged": "8.1.0",
     "prettier": "1.15.3",
     "puppeteer": "1.11.0",
+    "release-it": "^10.3.1",
     "rollup": "1.0.0",
     "rollup-plugin-typescript": "^1.0.0",
     "rollup-plugin-typescript2": "^0.20.1",
@@ -52,6 +54,18 @@
     "precommit": "lint-staged",
     "build": "rollup -c",
     "publish:patch": "yarn publish --patch"
+  },
+  "release-it": {
+    "scripts": {
+      "changelog": "npx auto-changelog --stdout --commit-limit false -u",
+      "beforeStage": "npx auto-changelog"
+    },
+    "git": {
+      "tagName": "v${version}"
+    },
+    "github": {
+      "release": true
+    }
   },
   "lint-staged": {
     "*.{js,json,css,md}": [
