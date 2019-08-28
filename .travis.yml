@@ -3,6 +3,6 @@ node_js:
   - "8"
   - "10"
 after_success:
-  - yarn lint
-  - yarn build
-  - yarn test:coverage
+  - npm run lint
+  - npm build
+  - npm run test:coverage

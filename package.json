@@ -52,8 +52,7 @@
     "test": "jest",
     "test:coverage": "jest --coverage",
     "precommit": "lint-staged",
-    "build": "rollup -c",
-    "publish:patch": "yarn publish --patch"
+    "build": "rollup -c"
   },
   "release-it": {
     "scripts": {
