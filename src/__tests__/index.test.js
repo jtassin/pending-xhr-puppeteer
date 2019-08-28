@@ -143,12 +143,12 @@ describe('PendingXHR', () => {
       setTimeout(() => {
         request1Resolver([200, 'first xhr finished']);
       });
-      await sleep(10);
+      await sleep(1000);
       expect(pendingXHR.pendingXhrCount()).toEqual(1);
       setTimeout(() => {
         request2Resolver([200, 'second xhr finished']);
       });
-      await sleep(10);
+      await sleep(1000);
       expect(pendingXHR.pendingXhrCount()).toEqual(0);
     });
   });
