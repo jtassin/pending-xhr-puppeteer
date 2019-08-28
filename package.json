@@ -52,11 +52,11 @@
     "test": "jest",
     "test:coverage": "jest --coverage",
     "precommit": "lint-staged",
-    "build": "rollup -c",
-    "publish:patch": "yarn publish --patch"
+    "build": "rollup -c"
   },
   "release-it": {
     "scripts": {
+      "afterBump": "npm run build",
       "changelog": "npx auto-changelog --stdout --commit-limit false -u",
       "beforeStage": "npx auto-changelog"
     },
