@@ -1,0 +1,11 @@
+.rpt2_cache
+.editorconfig
+.eslintrc.js
+.gitignore
+yarn-error.log
+.travis.yml
+jest.config.js
+prettier.config.js
+renovate.json
+rollup.config.js
+tsconfig.json
