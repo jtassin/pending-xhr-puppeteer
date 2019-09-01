@@ -39,7 +39,7 @@
     "puppeteer": "1.19.0",
     "release-it": "10.4.5",
     "rollup": "1.20.3",
-    "rollup-plugin-typescript": "1.0.0",
+    "rollup-plugin-typescript": "1.0.1",
     "rollup-plugin-typescript2": "0.24.0",
     "ts-jest": "24.0.2",
     "tsc": "1.20150623.0",
