@@ -44,7 +44,7 @@
     "ts-jest": "25.0.0",
     "tsc": "1.20150623.0",
     "tslib": "1.10.0",
-    "typescript": "3.7.4"
+    "typescript": "3.8.3"
   },
   "scripts": {
     "prettier:write": "prettier --single-quote --trailing-comma es5 --write src/**/*",
