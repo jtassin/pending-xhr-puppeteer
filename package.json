@@ -37,7 +37,7 @@
     "lint-staged": "9.5.0",
     "prettier": "1.19.1",
     "puppeteer": "1.19.0",
-    "release-it": "10.4.5",
+    "release-it": "12.6.3",
     "rollup": "1.20.3",
     "rollup-plugin-typescript": "1.0.1",
     "rollup-plugin-typescript2": "0.24.0",
