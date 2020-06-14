@@ -52,6 +52,7 @@
     "test": "jest",
     "test:coverage": "jest --coverage",
     "precommit": "lint-staged",
+    "commit:fake": "git commit --dry-run -m foo --allow-empty --amend",
     "release:fake": "release-it patch --dry-run --no-git.requireCleanWorkingDir --ci",
     "build": "rollup -c"
   },
