@@ -1,14 +1,33 @@
-os:
-  - linux
-  - osx
 language: node_js
-node_js:
-  - "10"
-  - "12"
-  - "14"
-after_success:
-  - npm run lint
-  - npm build
-  - npm run test:coverage
-  - npm run release:fake
-  - npm run commit:fake
+jobs:
+  include:
+  - name: "Dev tools"
+    node_js: "14"
+    os: osx
+    script:
+      - npm run lint
+      - npm build
+      - npm run release:fake
+      - npm run commit:fake
+  - name: "puppeteer 2"
+    node_js: 
+      - "12"
+      - "14"
+    os: linux
+    script:
+      - npm i puppeteer@2 -D
+      - npm run test:coverage
+  - name: "puppeteer 3 - node 12"
+    node_js: 
+      - "12"
+    os: linux
+    script:
+      - npm i puppeteer@3 -D
+      - npm run test:coverage
+  - name: "puppeteer 3 - node 14"
+    node_js: 
+      - "14"
+    os: linux
+    script:
+      - npm i puppeteer@3 -D
+      - npm run test:coverage      
