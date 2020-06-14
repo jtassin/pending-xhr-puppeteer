@@ -307,9 +307,6 @@ describe('PendingXHR', () => {
       const pendingXHR = new PendingXHR(page);
       await page.goto(`http://localhost:${port}/go`);
       expect(pendingXHR.pendingXhrCount()).toEqual(1);
-      setTimeout(() => {
-        request1Resolver([500, 'boom']);
-      }, 0);
       await pendingXHR.waitForAllXhrFinished();
       expect(pendingXHR.pendingXhrCount()).toEqual(0);
     });

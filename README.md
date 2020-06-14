@@ -94,18 +94,43 @@ console.log(pendingXHR.pendingXhrCount());
 // May or may not have pending xhrs
 ```
 
-## Wait for all xhr triggered by an event
+## Wait for all xhr triggered by all the events of the page
 
 You can use this lib to wait for xhr triggered by any event from the UI (click, typing, ...).
 
 Exemple :
 
 ```javascript
+const pendingXHR = new PendingXHR(page);
 await page.goto(`http://page-with-xhr`);
 await page.click('.my-selector'); // This action will trigger some xhr
 // Here all xhr requests triggered by the click are not finished
 await pendingXHR.waitForAllXhrFinished();
 // Here all xhr requests triggered by the click are finished
+// You can then perform an other xhr producer event
+await page.click('.my-selector2'); // This action will trigger some xhr
+// You can rewait them
+await pendingXHR.waitForAllXhrFinished();
+```
+
+This mode is usefull to test SPA, you d'ont have to recreate a new instance at each time.
+The request listeners will be deleted when you leave the page.
+
+## Wait for all xhr triggered by an event of the page
+
+with `waitOnceForAllXhrFinished` you can wait until all the xhr are finished and them remove the listeners.
+This is usefull when `waitForAllXhrFinished` has a leaking behaviour for you.
+
+Exemple :
+
+```javascript
+const pendingXHR = new PendingXHR(page);
+await page.goto(`http://page-with-xhr`);
+await page.click('.my-selector'); // This action will trigger some xhr
+// Here all xhr requests triggered by the click are not finished
+await pendingXHR.waitOnceForAllXhrFinished();
+// Here all xhr requests triggered by the click are finished
+// All pendingXHR listeners are remove here too
 ```
 
 ## Contribute
