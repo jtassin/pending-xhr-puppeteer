@@ -37,7 +37,7 @@
     "lint-staged": "10.2.10",
     "prettier": "2.0.5",
     "puppeteer": "1.19.0",
-    "release-it": "10.4.5",
+    "release-it": "^13.6.3",
     "rollup": "1.20.3",
     "rollup-plugin-typescript": "1.0.1",
     "rollup-plugin-typescript2": "0.24.0",
@@ -52,13 +52,14 @@
     "test": "jest",
     "test:coverage": "jest --coverage",
     "precommit": "lint-staged",
+    "release:fake": "release-it patch --dry-run --no-git.requireCleanWorkingDir --ci",
     "build": "rollup -c"
   },
   "release-it": {
     "scripts": {
       "afterBump": "npm run build",
-      "changelog": "npx auto-changelog --stdout --commit-limit false -u",
-      "beforeStage": "npx auto-changelog"
+      "changelog": "auto-changelog --stdout --commit-limit false -u",
+      "beforeStage": "auto-changelog"
     },
     "git": {
       "tagName": "v${version}"
