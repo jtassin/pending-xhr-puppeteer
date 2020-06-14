@@ -6,6 +6,7 @@
     "module": "ES2015",
     "target": "es5",
     "lib": ["ES2015"],
+    "esModuleInterop": true,
     "sourceMap": true,
     "moduleResolution": "node",
     "rootDir": "src",
