@@ -28,7 +28,7 @@
   "devDependencies": {
     "@types/jest": "25.2.3",
     "@types/puppeteer": "1.19.1",
-    "auto-changelog": "1.15.0",
+    "auto-changelog": "1.16.4",
     "eslint": "7.2.0",
     "eslint-config-prettier": "6.11.0",
     "eslint-plugin-jest": "23.13.2",
