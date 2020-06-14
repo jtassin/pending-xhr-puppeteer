@@ -58,7 +58,7 @@
   },
   "release-it": {
     "scripts": {
-      "afterBump": "npm run build",
+      "afterBump": "build",
       "changelog": "auto-changelog --stdout --commit-limit false -u",
       "beforeStage": "auto-changelog"
     },
