@@ -3,7 +3,7 @@ jobs:
   include:
   - name: "Dev tools"
     node_js: "14"
-    os: osx
+    os: linux
     script:
       - npm run lint
       - npm build
