@@ -1,19 +1,26 @@
 import { Request, Page } from 'puppeteer';
 
 interface ResolvableRequest extends Request {
-  resolver: () => void; 
+  resolver: () => void;
 }
 
 export class PendingXHR {
-
   page: Page;
+
   resourceType: string;
+
   pendingXhrs: Set<Request>;
+
   finishedWithSuccessXhrs: Set<Request>;
+
   finishedWithErrorsXhrs: Set<Request>;
-  promisees: Array<Promise<void>>
+
+  promisees: Promise<void>[];
+
   requestListener: (request: ResolvableRequest) => void;
+
   requestFailedListener: (request: ResolvableRequest) => void;
+
   requestFinishedListener: (request: ResolvableRequest) => void;
 
   constructor(page: Page) {
@@ -39,10 +46,8 @@ export class PendingXHR {
       if (request.resourceType() === this.resourceType) {
         this.pendingXhrs.delete(request);
         this.finishedWithErrorsXhrs.add(request);
-        if (request.resolver) {
-          request.resolver();
-          delete request.resolver;
-        }
+        request.resolver();
+        delete request.resolver;
       }
     };
 
@@ -50,10 +55,8 @@ export class PendingXHR {
       if (request.resourceType() === this.resourceType) {
         this.pendingXhrs.delete(request);
         this.finishedWithSuccessXhrs.add(request);
-        if (request.resolver) {
-          request.resolver();
-          delete request.resolver;
-        }
+        request.resolver();
+        delete request.resolver;
       }
     };
 
