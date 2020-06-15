@@ -1,0 +1,31 @@
+name: test
+on: [push]
+
+jobs:
+  dev-tools:
+   runs-on: ubuntu-latest
+   steps:
+    - uses: actions/checkout@v2
+    - name: Test Devs tools, compil and lint
+      uses: actions/setup-node@v1
+    - run: npm install  
+    - run: npm build  
+    - run: npm run lint  
+    - run: npm run release:fake  
+    - run: npm run commit:fake  
+  unit-tests:
+   runs-on: ubuntu-latest
+   strategy:
+    matrix:
+      node-version: [10.x, 12.x, 14.x]  
+      puppeteer-version: [1, 2, 3]
+   steps:
+    - uses: actions/checkout@v2
+    - name: npm test node ${{matrix.node-version}} puppeteer ${{matrix.puppeteer-version}}
+      uses: actions/setup-node@v1      
+      with:
+        node-version: ${{ matrix.node-version }}      
+    - run: npm install  
+    - run: npm install @types/puppeteer@${{matrix.puppeteer-version}}
+    - run: npm install puppeteer@${{matrix.puppeteer-version}}
+    - run: npm test
