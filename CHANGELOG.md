@@ -1,3 +1,10 @@
+## [2.3.2](https://github.com/jtassin/pending-xhr-puppeteer/compare/v2.3.1...v2.3.2) (2020-06-16)
+
+
+### Bug Fixes
+
+* expose only interesting files ([a083778](https://github.com/jtassin/pending-xhr-puppeteer/commit/a08377834ea2f4b5fc4107f28ac5489b6603fb27))
+
 ## [2.3.1](https://github.com/jtassin/pending-xhr-puppeteer/compare/v2.3.0...v2.3.1) (2020-06-16)
 
 
