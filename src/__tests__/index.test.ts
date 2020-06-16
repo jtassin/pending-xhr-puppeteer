@@ -158,6 +158,20 @@ describe('PendingXHR', () => {
     });
   });
 
+  describe('removePageListeners', () => {
+    it('removes all listenners', async () => {
+      startServerReturning(OK_NO_XHR);
+      const page = await browser.newPage();
+      const count = page.listenerCount('request');
+      const pendingXHR = new PendingXHR(page);
+      await page.goto(`http://localhost:${port}/go`);
+      await pendingXHR.waitForAllXhrFinished();
+      expect(page.listenerCount('request')).toBe(count + 1);
+      pendingXHR.removePageListeners();
+      expect(page.listenerCount('request')).toBe(count);
+    });
+  });
+
   describe('waitOnceForAllXhrFinished', () => {
     it('returns and removes all listeners immediatly if no xhr pending', async () => {
       startServerReturning(OK_NO_XHR);

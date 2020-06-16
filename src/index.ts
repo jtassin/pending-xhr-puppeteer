@@ -65,6 +65,12 @@ export class PendingXHR {
     page.on('requestfinished', this.requestFinishedListener);
   }
 
+  removePageListeners() {
+    this.page.removeListener('request', this.requestListener);
+    this.page.removeListener('requestfailed', this.requestFailedListener);
+    this.page.removeListener('requestfinished', this.requestFinishedListener);
+  }
+
   async waitForAllXhrFinished() {
     if (this.pendingXhrCount() === 0) {
       return;
@@ -75,9 +81,7 @@ export class PendingXHR {
   async waitOnceForAllXhrFinished() {
     await this.waitForAllXhrFinished();
 
-    this.page.removeListener('request', this.requestListener);
-    this.page.removeListener('requestfailed', this.requestFailedListener);
-    this.page.removeListener('requestfinished', this.requestFinishedListener);
+    this.removePageListeners();
   }
 
   pendingXhrCount() {
