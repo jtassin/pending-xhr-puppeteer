@@ -62,8 +62,8 @@
     "build": "rollup -c"
   },
   "release-it": {
-    "scripts": {
-      "afterBump": "build"
+    "hooks": {
+      "after:bump": "npm run build"
     },
     "plugins": {
       "@release-it/conventional-changelog": {
