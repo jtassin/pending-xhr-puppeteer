@@ -45,7 +45,7 @@
     "release-it": "13.6.3",
     "rollup": "2.16.1",
     "rollup-plugin-typescript": "1.0.1",
-    "rollup-plugin-typescript2": "0.24.0",
+    "rollup-plugin-typescript2": "0.27.1",
     "ts-jest": "26.1.0",
     "tsc": "1.20150623.0",
     "tslib": "2.0.0",
