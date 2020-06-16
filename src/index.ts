@@ -4,9 +4,6 @@ interface ResolvableRequest extends Request {
   resolver: () => void;
 }
 
-/**
- * 魔改来源: https://github.com/jtassin/pending-xhr-puppeteer
- */
 // noinspection SpellCheckingInspection
 export default class PendingXHR {
   page: Page;
