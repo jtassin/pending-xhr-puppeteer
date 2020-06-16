@@ -1,3 +1,10 @@
+## [2.3.1](https://github.com/jtassin/pending-xhr-puppeteer/compare/v2.3.0...v2.3.1) (2020-06-16)
+
+
+### Bug Fixes
+
+* fix exposition of waitOnceForAllXhrFinished ([b26cbf1](https://github.com/jtassin/pending-xhr-puppeteer/commit/b26cbf19f84ac637c8888c158f852017257689c1))
+
 # [2.3.0](https://github.com/jtassin/pending-xhr-puppeteer/compare/v2.2.0...v2.3.0) (2020-06-16)
 
 
