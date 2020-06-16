@@ -1,3 +1,10 @@
+# [2.3.0](https://github.com/jtassin/pending-xhr-puppeteer/compare/v2.2.0...v2.3.0) (2020-06-16)
+
+
+### Features
+
+* expose removeListeners function ([8877578](https://github.com/jtassin/pending-xhr-puppeteer/commit/8877578baa30311c9e5ce64a206224bb5b3b5ae5))
+
 ### Changelog
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
