@@ -46,7 +46,7 @@
     "prettier": "2.0.5",
     "puppeteer": "4.0.0",
     "release-it": "13.6.3",
-    "rollup": "2.17.0",
+    "rollup": "2.17.1",
     "rollup-plugin-typescript": "1.0.1",
     "rollup-plugin-typescript2": "0.27.1",
     "ts-jest": "26.1.0",
