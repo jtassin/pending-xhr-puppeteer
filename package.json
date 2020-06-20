@@ -39,7 +39,7 @@
     "delay": "4.3.0",
     "eslint": "7.3.0",
     "eslint-config-prettier": "6.11.0",
-    "eslint-plugin-jest": "23.13.2",
+    "eslint-plugin-jest": "23.14.0",
     "husky": "4.2.5",
     "jest": "26.0.1",
     "lint-staged": "10.2.10",
