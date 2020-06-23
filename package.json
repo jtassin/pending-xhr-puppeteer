@@ -42,7 +42,7 @@
     "eslint-plugin-jest": "23.17.1",
     "husky": "4.2.5",
     "jest": "26.1.0",
-    "lint-staged": "10.2.10",
+    "lint-staged": "10.2.11",
     "prettier": "2.0.5",
     "puppeteer": "4.0.0",
     "release-it": "13.6.3",
