@@ -49,7 +49,7 @@
     "rollup": "2.27.1",
     "rollup-plugin-typescript": "1.0.1",
     "rollup-plugin-typescript2": "0.27.2",
-    "ts-jest": "26.3.0",
+    "ts-jest": "26.4.0",
     "tsc": "1.20150623.0",
     "tslib": "2.0.0",
     "typescript": "3.9.7"
