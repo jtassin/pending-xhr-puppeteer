@@ -15,6 +15,6 @@
     "noImplicitAny": true,
     "strictNullChecks": true
   },
-  "exclude": ["node_modules", "build"],
+  "exclude": ["node_modules", "build", "jest.setup.ts"],
   "types": ["typePatches"]
 }
