@@ -1,7 +1,7 @@
 import { Request, Page } from 'puppeteer';
 
 interface ResolvableRequest extends Request {
-  resolver: () => void;
+  pendingXhrResolver?: () => void;
 }
 
 export class PendingXHR {
@@ -36,7 +36,7 @@ export class PendingXHR {
         this.pendingXhrs.add(request);
         this.promisees.push(
           new Promise(resolve => {
-            request.resolver = resolve;
+            request.pendingXhrResolver = resolve;
           }),
         );
       }
@@ -46,8 +46,10 @@ export class PendingXHR {
       if (request.resourceType() === this.resourceType) {
         this.pendingXhrs.delete(request);
         this.finishedWithErrorsXhrs.add(request);
-        request.resolver();
-        delete request.resolver;
+        if (request.pendingXhrResolver) {
+          request.pendingXhrResolver();
+        }
+        delete request.pendingXhrResolver;
       }
     };
 
@@ -55,8 +57,10 @@ export class PendingXHR {
       if (request.resourceType() === this.resourceType) {
         this.pendingXhrs.delete(request);
         this.finishedWithSuccessXhrs.add(request);
-        request.resolver();
-        delete request.resolver;
+        if (request.pendingXhrResolver) {
+          request.pendingXhrResolver();
+        }
+        delete request.pendingXhrResolver;
       }
     };
 

@@ -17,7 +17,7 @@ jobs:
    strategy:
     matrix:
       node-version: [10.x, 12.x, 14.x]  
-      puppeteer-version: [1, 2, 3, 4]
+      puppeteer-version: [1, 2, 3, 4, 5]
    steps:
     - uses: actions/checkout@v2
     - name: npm test node ${{matrix.node-version}} puppeteer ${{matrix.puppeteer-version}}
