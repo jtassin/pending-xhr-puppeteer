@@ -37,7 +37,7 @@
     "@types/puppeteer": "5.4.3",
     "auto-changelog": "2.2.1",
     "delay": "5.0.0",
-    "eslint": "7.23.0",
+    "eslint": "7.24.0",
     "eslint-config-prettier": "8.1.0",
     "eslint-plugin-jest": "24.3.4",
     "husky": "6.0.0",
