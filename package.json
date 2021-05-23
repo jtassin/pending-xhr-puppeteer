@@ -35,7 +35,7 @@
     "@types/jest": "26.0.23",
     "@types/node": "14.17.0",
     "@types/puppeteer": "5.4.3",
-    "auto-changelog": "2.2.1",
+    "auto-changelog": "2.3.0",
     "delay": "5.0.0",
     "eslint": "7.27.0",
     "eslint-config-prettier": "8.3.0",
