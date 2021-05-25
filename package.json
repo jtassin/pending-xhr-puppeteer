@@ -31,7 +31,7 @@
   "devDependencies": {
     "@keplr/eslint-config-backend-node": "2.5.1",
     "@release-it/conventional-changelog": "2.0.1",
-    "@types/express": "4.17.11",
+    "@types/express": "4.17.12",
     "@types/jest": "26.0.23",
     "@types/node": "14.17.1",
     "@types/puppeteer": "5.4.3",
