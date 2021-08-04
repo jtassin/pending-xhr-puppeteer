@@ -33,7 +33,7 @@
     "@release-it/conventional-changelog": "3.0.1",
     "@types/express": "4.17.13",
     "@types/jest": "26.0.24",
-    "@types/node": "14.17.7",
+    "@types/node": "14.17.8",
     "@types/puppeteer": "5.4.4",
     "auto-changelog": "2.3.0",
     "delay": "5.0.0",
