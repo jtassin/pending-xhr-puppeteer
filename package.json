@@ -44,7 +44,7 @@
     "jest": "27.3.1",
     "lint-staged": "11.2.6",
     "prettier": "2.4.1",
-    "puppeteer": "5.5.0",
+    "puppeteer": "10.4.0",
     "release-it": "14.11.6",
     "rollup": "2.59.0",
     "rollup-plugin-typescript": "1.0.1",
