@@ -4,12 +4,10 @@ interface ResolvableRequest extends HTTPRequest {
   pendingResolver?: () => void;
 }
 
-type ResolvableResourceType = ResourceType | 'any';
+export class PendingRequests {
+  private readonly page: Page;
 
-export class PendingRequest {
-  page: Page;
-
-  resourceType: string;
+  private readonly resourceTypes: ResourceType[] | 'any';
 
   private readonly pendingRequests: Set<ResolvableRequest>;
 
@@ -27,9 +25,9 @@ export class PendingRequest {
     request: ResolvableRequest,
   ) => void;
 
-  constructor(page: Page, resourceType: ResolvableResourceType = 'xhr') {
+  constructor(page: Page, resourceTypes: ResourceType[] | 'any' = ['xhr']) {
     this.page = page;
-    this.resourceType = resourceType;
+    this.resourceTypes = resourceTypes;
 
     this.promises = [];
     this.pendingRequests = new Set();
@@ -37,10 +35,7 @@ export class PendingRequest {
     this.finishedRequestsWithError = new Set();
 
     this.requestListener = (request: ResolvableRequest) => {
-      if (
-        request.resourceType() === this.resourceType ||
-        this.resourceType === 'any'
-      ) {
+      if (this.handleResourceType(request.resourceType())) {
         this.pendingRequests.add(request);
         this.promises.push(
           new Promise(resolve => {
@@ -51,10 +46,7 @@ export class PendingRequest {
     };
 
     this.requestFailedListener = (request: ResolvableRequest) => {
-      if (
-        request.resourceType() === this.resourceType ||
-        this.resourceType === 'any'
-      ) {
+      if (this.handleResourceType(request.resourceType())) {
         this.pendingRequests.delete(request);
         this.finishedRequestsWithError.add(request);
         if (request.pendingResolver) {
@@ -65,10 +57,7 @@ export class PendingRequest {
     };
 
     this.requestFinishedListener = (request: ResolvableRequest) => {
-      if (
-        request.resourceType() === this.resourceType ||
-        this.resourceType === 'any'
-      ) {
+      if (this.handleResourceType(request.resourceType())) {
         this.pendingRequests.delete(request);
         this.finishedRequestsWithSuccess.add(request);
         if (request.pendingResolver) {
@@ -104,5 +93,13 @@ export class PendingRequest {
 
   pendingRequestsCount(): number {
     return this.pendingRequests.size;
+  }
+
+  private handleResourceType(resourceType: ResourceType): boolean {
+    if (this.resourceTypes === 'any') {
+      return true;
+    }
+
+    return this.resourceTypes.includes(resourceType);
   }
 }

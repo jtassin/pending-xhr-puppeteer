@@ -3,7 +3,7 @@ import http from 'http';
 import delay from 'delay';
 import Puppeteer, { Browser } from 'puppeteer';
 
-import { PendingRequest } from '../index';
+import { PendingRequests } from '../index';
 
 let port: number;
 
@@ -134,7 +134,7 @@ describe('PendingXHR', () => {
     it('returns 0 if no xhr pending count', async () => {
       startServerReturning(OK_NO_XHR);
       const page = await browser.newPage();
-      const pendingXHR = new PendingRequest(page);
+      const pendingXHR = new PendingRequests(page);
       await page.goto(`http://localhost:${port}/go`);
       expect(pendingXHR.pendingRequestsCount()).toEqual(0);
     });
@@ -142,7 +142,7 @@ describe('PendingXHR', () => {
     it('returns the xhr pending count', async () => {
       startServerReturning(getOkWithTwoXhr());
       const page = await browser.newPage();
-      const pendingXHR = new PendingRequest(page);
+      const pendingXHR = new PendingRequests(page);
       await page.goto(`http://localhost:${port}/go`);
       expect(pendingXHR.pendingRequestsCount()).toEqual(2);
       setTimeout(() => {
@@ -159,11 +159,11 @@ describe('PendingXHR', () => {
   });
 
   describe('removePageListeners', () => {
-    it('removes all listenners', async () => {
+    it('removes all listeners', async () => {
       startServerReturning(OK_NO_XHR);
       const page = await browser.newPage();
       const count = page.listenerCount('request');
-      const pendingXHR = new PendingRequest(page);
+      const pendingXHR = new PendingRequests(page);
       await page.goto(`http://localhost:${port}/go`);
       await pendingXHR.waitForAllRequestsFinished();
       expect(page.listenerCount('request')).toBe(count + 1);
@@ -177,7 +177,7 @@ describe('PendingXHR', () => {
       startServerReturning(OK_NO_XHR);
       const page = await browser.newPage();
       const count = page.listenerCount('request');
-      const pendingXHR = new PendingRequest(page);
+      const pendingXHR = new PendingRequests(page);
       await page.goto(`http://localhost:${port}/go`);
       await pendingXHR.waitOnceForAllRequestsFinished();
       expect(page.listenerCount('request')).toBe(count + 1);
@@ -188,7 +188,7 @@ describe('PendingXHR', () => {
         startServerReturning(getOkWithOneXhr());
         const page = await browser.newPage();
         const count = page.listenerCount('request');
-        const pendingXHR = new PendingRequest(page);
+        const pendingXHR = new PendingRequests(page);
         await page.goto(`http://localhost:${port}/go`);
         expect(pendingXHR.pendingRequestsCount()).toEqual(1);
         setTimeout(() => {
@@ -205,7 +205,7 @@ describe('PendingXHR', () => {
         startServerReturning(getOkWithTwoXhr());
         const page = await browser.newPage();
         const count = page.listenerCount('request');
-        const pendingXHR = new PendingRequest(page);
+        const pendingXHR = new PendingRequests(page);
         await page.goto(`http://localhost:${port}/go`);
         expect(pendingXHR.pendingRequestsCount()).toEqual(2);
         setTimeout(() => {
@@ -226,15 +226,15 @@ describe('PendingXHR', () => {
       startServerReturning(OK_NO_XHR);
       const page = await browser.newPage();
       const count = page.listenerCount('request');
-      const pendingXHR = new PendingRequest(page);
+      const pendingXHR = new PendingRequests(page);
       await page.goto(`http://localhost:${port}/go`);
       await pendingXHR.waitForAllRequestsFinished();
       expect(page.listenerCount('request')).toBe(count + 1);
     });
-    it('returns immediatly if no xhr pending count', async () => {
+    it('returns immediately if no xhr pending count', async () => {
       startServerReturning(OK_NO_XHR);
       const page = await browser.newPage();
-      const pendingXHR = new PendingRequest(page);
+      const pendingXHR = new PendingRequests(page);
       await page.goto(`http://localhost:${port}/go`);
       expect(pendingXHR.pendingRequestsCount()).toEqual(0);
       await pendingXHR.waitForAllRequestsFinished();
@@ -244,7 +244,7 @@ describe('PendingXHR', () => {
     it('waits for 1 xhr to end', async () => {
       startServerReturning(getOkWithOneXhr());
       const page = await browser.newPage();
-      const pendingXHR = new PendingRequest(page);
+      const pendingXHR = new PendingRequests(page);
       await page.goto(`http://localhost:${port}/go`);
       expect(pendingXHR.pendingRequestsCount()).toEqual(1);
       setTimeout(() => {
@@ -257,7 +257,7 @@ describe('PendingXHR', () => {
     it('can be trigerred multiple times', async () => {
       startServerReturning(getOkWithOneXhr());
       const page = await browser.newPage();
-      const pendingXHR = new PendingRequest(page);
+      const pendingXHR = new PendingRequests(page);
       await page.goto(`http://localhost:${port}/go`);
       expect(pendingXHR.pendingRequestsCount()).toEqual(1);
       setTimeout(() => {
@@ -271,7 +271,7 @@ describe('PendingXHR', () => {
     it('works with Promise.race', async () => {
       startServerReturning(getOkWithOneXhr());
       const page = await browser.newPage();
-      const pendingXHR = new PendingRequest(page);
+      const pendingXHR = new PendingRequests(page);
       await page.goto(`http://localhost:${port}/go`);
       setTimeout(() => {
         request1Resolver!([200, '']);
@@ -296,7 +296,7 @@ describe('PendingXHR', () => {
     it('waits for 2 xhr to end', async () => {
       startServerReturning(getOkWithTwoXhr());
       const page = await browser.newPage();
-      const pendingXHR = new PendingRequest(page);
+      const pendingXHR = new PendingRequests(page);
       await page.goto(`http://localhost:${port}/go`);
       expect(pendingXHR.pendingRequestsCount()).toEqual(2);
       setTimeout(() => {
@@ -312,7 +312,7 @@ describe('PendingXHR', () => {
     it('handle correctly failed xhr', async () => {
       startServerReturning(getOkWithOneFailingXhr());
       const page = await browser.newPage();
-      const pendingXHR = new PendingRequest(page);
+      const pendingXHR = new PendingRequests(page);
       await page.goto(`http://localhost:${port}/go`);
       expect(pendingXHR.pendingRequestsCount()).toEqual(1);
       await pendingXHR.waitForAllRequestsFinished();
