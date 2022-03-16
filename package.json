@@ -1,5 +1,5 @@
 {
-  "name": "pending-requests-puppeteer",
+  "name": "@mailbutler/pending-requests-puppeteer",
   "node": ">= 12.0.0",
   "version": "1.0.0",
   "description": "Small helper library to wait for all requests to be finished in pupeteer.",
@@ -19,7 +19,7 @@
   ],
   "author": "Julien TASSIN",
   "contributors": [
-    "Fabian Jäger"
+    "Fabian Jäger <fabian@mailbutler.io>"
   ],
   "license": "MIT",
   "private": false,
