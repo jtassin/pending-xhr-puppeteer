@@ -1,6 +1,6 @@
 {
   "name": "pending-xhr-puppeteer",
-  "node": ">= 8.0.0",
+  "node": ">= 12.0.0",
   "version": "2.3.3",
   "description": "Small tool for wait that all xhr are finished in pupeteer",
   "main": "lib/index.js",
@@ -31,6 +31,7 @@
   "devDependencies": {
     "@keplr/eslint-config-backend-node": "^3.0.2",
     "@release-it/conventional-changelog": "^4.2.2",
+    "@types/express": "4.17.13",
     "@types/jest": "^27.4.1",
     "@types/node": "^17.0.21",
     "auto-changelog": "^2.4.0",

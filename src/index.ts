@@ -1,66 +1,80 @@
-import { Request, Page } from 'puppeteer';
+import { Page, HTTPRequest, ResourceType } from 'puppeteer';
 
-interface ResolvableRequest extends Request {
-  pendingXhrResolver?: () => void;
+interface ResolvableRequest extends HTTPRequest {
+  pendingResolver?: () => void;
 }
 
-export class PendingXHR {
+type ResolvableResourceType = ResourceType | 'any';
+
+export class PendingRequest {
   page: Page;
 
   resourceType: string;
 
-  pendingXhrs: Set<Request>;
+  private readonly pendingRequests: Set<ResolvableRequest>;
 
-  finishedWithSuccessXhrs: Set<Request>;
+  private readonly finishedRequestsWithSuccess: Set<ResolvableRequest>;
 
-  finishedWithErrorsXhrs: Set<Request>;
+  private readonly finishedRequestsWithError: Set<ResolvableRequest>;
 
-  promisees: Promise<void>[];
+  private readonly promises: Promise<void>[];
 
-  requestListener: (request: ResolvableRequest) => void;
+  private readonly requestListener: (request: ResolvableRequest) => void;
 
-  requestFailedListener: (request: ResolvableRequest) => void;
+  private readonly requestFailedListener: (request: ResolvableRequest) => void;
 
-  requestFinishedListener: (request: ResolvableRequest) => void;
+  private readonly requestFinishedListener: (
+    request: ResolvableRequest,
+  ) => void;
 
-  constructor(page: Page) {
-    this.promisees = [];
+  constructor(page: Page, resourceType: ResolvableResourceType = 'xhr') {
     this.page = page;
-    this.resourceType = 'xhr';
-    this.pendingXhrs = new Set();
-    this.finishedWithSuccessXhrs = new Set();
-    this.finishedWithErrorsXhrs = new Set();
+    this.resourceType = resourceType;
+
+    this.promises = [];
+    this.pendingRequests = new Set();
+    this.finishedRequestsWithSuccess = new Set();
+    this.finishedRequestsWithError = new Set();
 
     this.requestListener = (request: ResolvableRequest) => {
-      if (request.resourceType() === this.resourceType) {
-        this.pendingXhrs.add(request);
-        this.promisees.push(
+      if (
+        request.resourceType() === this.resourceType ||
+        this.resourceType === 'any'
+      ) {
+        this.pendingRequests.add(request);
+        this.promises.push(
           new Promise(resolve => {
-            request.pendingXhrResolver = resolve;
+            request.pendingResolver = resolve;
           }),
         );
       }
     };
 
     this.requestFailedListener = (request: ResolvableRequest) => {
-      if (request.resourceType() === this.resourceType) {
-        this.pendingXhrs.delete(request);
-        this.finishedWithErrorsXhrs.add(request);
-        if (request.pendingXhrResolver) {
-          request.pendingXhrResolver();
+      if (
+        request.resourceType() === this.resourceType ||
+        this.resourceType === 'any'
+      ) {
+        this.pendingRequests.delete(request);
+        this.finishedRequestsWithError.add(request);
+        if (request.pendingResolver) {
+          request.pendingResolver();
         }
-        delete request.pendingXhrResolver;
+        delete request.pendingResolver;
       }
     };
 
     this.requestFinishedListener = (request: ResolvableRequest) => {
-      if (request.resourceType() === this.resourceType) {
-        this.pendingXhrs.delete(request);
-        this.finishedWithSuccessXhrs.add(request);
-        if (request.pendingXhrResolver) {
-          request.pendingXhrResolver();
+      if (
+        request.resourceType() === this.resourceType ||
+        this.resourceType === 'any'
+      ) {
+        this.pendingRequests.delete(request);
+        this.finishedRequestsWithSuccess.add(request);
+        if (request.pendingResolver) {
+          request.pendingResolver();
         }
-        delete request.pendingXhrResolver;
+        delete request.pendingResolver;
       }
     };
 
@@ -69,26 +83,26 @@ export class PendingXHR {
     page.on('requestfinished', this.requestFinishedListener);
   }
 
-  removePageListeners() {
-    this.page.removeListener('request', this.requestListener);
-    this.page.removeListener('requestfailed', this.requestFailedListener);
-    this.page.removeListener('requestfinished', this.requestFinishedListener);
+  removePageListeners(): void {
+    this.page.off('request', this.requestListener);
+    this.page.off('requestfailed', this.requestFailedListener);
+    this.page.off('requestfinished', this.requestFinishedListener);
   }
 
-  async waitForAllXhrFinished() {
-    if (this.pendingXhrCount() === 0) {
+  async waitForAllRequestsFinished(): Promise<void> {
+    if (this.pendingRequestsCount() === 0) {
       return;
     }
-    await Promise.all(this.promisees);
+    await Promise.all(this.promises);
   }
 
-  async waitOnceForAllXhrFinished() {
-    await this.waitForAllXhrFinished();
+  async waitOnceForAllRequestsFinished(): Promise<void> {
+    await this.waitForAllRequestsFinished();
 
     this.removePageListeners();
   }
 
-  pendingXhrCount() {
-    return this.pendingXhrs.size;
+  pendingRequestsCount(): number {
+    return this.pendingRequests.size;
   }
 }
