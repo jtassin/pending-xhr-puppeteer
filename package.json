@@ -1,28 +1,31 @@
 {
-  "name": "pending-xhr-puppeteer",
+  "name": "pending-requests-puppeteer",
   "node": ">= 12.0.0",
-  "version": "2.3.3",
-  "description": "Small tool for wait that all xhr are finished in pupeteer",
+  "version": "1.0.0",
+  "description": "Small helper library to wait for all requests to be finished in pupeteer.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "module": "lib/es.js",
-  "homepage": "https://github.com/jtassin/pending-xhr-puppeteer",
+  "homepage": "https://github.com/mailbutler/pending-requests-puppeteer",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jtassin/pending-xhr-puppeteer.git"
+    "url": "https://github.com/mailbutler/pending-requests-puppeteer.git"
   },
   "bugs": {
-    "url": "https://github.com/jtassin/pending-xhr-puppeteer/issues"
+    "url": "https://github.com/mailbutler/pending-requests-puppeteer/issues"
   },
   "files": [
     "lib"
   ],
   "author": "Julien TASSIN",
+  "contributors": [
+    "Fabian Jäger"
+  ],
   "license": "MIT",
   "private": false,
   "keywords": [
     "puppeteer",
-    "xhr",
+    "requests",
     "pending",
     "wait",
     "nodejs",
