@@ -1,9 +1,17 @@
 import typescript from 'rollup-plugin-typescript2';
+
 import pkg from './package.json';
 
 module.exports = {
   input: 'src/index.ts',
-  plugins: [typescript({ typescript: require('typescript') })],
+  plugins: [
+    typescript({
+      typescript: require('typescript'),
+      tsconfigOverride: {
+        exclude: ['**/__tests__', '**/*.test.ts'],
+      },
+    }),
+  ],
   output: [
     {
       file: pkg.main,

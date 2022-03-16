@@ -1,9 +1,9 @@
 import http from 'http';
 
 import delay from 'delay';
-import { launch, Browser } from 'puppeteer';
+import Puppeteer, { Browser } from 'puppeteer';
 
-import { PendingXHR } from '../index';
+import { PendingRequests } from '../index';
 
 let port: number;
 
@@ -20,10 +20,10 @@ function getOkWithOneXhr() {
   <script>
     var xmlhttp = new XMLHttpRequest();
     var url = '/request1';
-  
+
     xmlhttp.open("GET", url, true);
     xmlhttp.send();
-  
+
   </script>
   </html>
   `;
@@ -36,10 +36,10 @@ function getOkWithOneFailingXhr() {
   <script>
     var xmlhttp = new XMLHttpRequest();
     var url = 'http://www.doesnotexiststygdfuqkhslijhguklhiomjgheohgdjgdlghdghisd.com';
-  
+
     xmlhttp.open("GET", url, true);
     xmlhttp.send();
-  
+
   </script>
   </html>
   `;
@@ -52,16 +52,16 @@ function getOkWithTwoXhr() {
   <script>
     var xmlhttp = new XMLHttpRequest();
     var url = '/request1';
-  
+
     xmlhttp.open("GET", url, true);
     xmlhttp.send();
-  
+
     var xmlhttp2 = new XMLHttpRequest();
     var url2 = '/request2';
-  
+
     xmlhttp2.open("GET", url2, true);
     xmlhttp2.send();
-  
+
   </script>
   </html>
   `;
@@ -89,7 +89,7 @@ describe('PendingXHR', () => {
     if (process.env.CI) {
       args.push('--no-sandbox');
     }
-    browser = await launch({
+    browser = await Puppeteer.launch({
       headless: true,
       args,
     });
@@ -134,53 +134,53 @@ describe('PendingXHR', () => {
     it('returns 0 if no xhr pending count', async () => {
       startServerReturning(OK_NO_XHR);
       const page = await browser.newPage();
-      const pendingXHR = new PendingXHR(page);
+      const pendingXHR = new PendingRequests(page);
       await page.goto(`http://localhost:${port}/go`);
-      expect(pendingXHR.pendingXhrCount()).toEqual(0);
+      expect(pendingXHR.pendingRequestsCount()).toEqual(0);
     });
 
     it('returns the xhr pending count', async () => {
       startServerReturning(getOkWithTwoXhr());
       const page = await browser.newPage();
-      const pendingXHR = new PendingXHR(page);
+      const pendingXHR = new PendingRequests(page);
       await page.goto(`http://localhost:${port}/go`);
-      expect(pendingXHR.pendingXhrCount()).toEqual(2);
+      expect(pendingXHR.pendingRequestsCount()).toEqual(2);
       setTimeout(() => {
         request1Resolver!([200, 'first xhr finished']);
       }, 0);
       await delay(1000);
-      expect(pendingXHR.pendingXhrCount()).toEqual(1);
+      expect(pendingXHR.pendingRequestsCount()).toEqual(1);
       setTimeout(() => {
         request2Resolver!([200, 'second xhr finished']);
       }, 0);
       await delay(1000);
-      expect(pendingXHR.pendingXhrCount()).toEqual(0);
+      expect(pendingXHR.pendingRequestsCount()).toEqual(0);
     });
   });
 
   describe('removePageListeners', () => {
-    it('removes all listenners', async () => {
+    it('removes all listeners', async () => {
       startServerReturning(OK_NO_XHR);
       const page = await browser.newPage();
       const count = page.listenerCount('request');
-      const pendingXHR = new PendingXHR(page);
+      const pendingXHR = new PendingRequests(page);
       await page.goto(`http://localhost:${port}/go`);
-      await pendingXHR.waitForAllXhrFinished();
+      await pendingXHR.waitForAllRequestsFinished();
       expect(page.listenerCount('request')).toBe(count + 1);
       pendingXHR.removePageListeners();
-      expect(page.listenerCount('request')).toBe(count);
+      expect(page.listenerCount('request')).toBe(count + 1);
     });
   });
 
   describe('waitOnceForAllXhrFinished', () => {
-    it('returns and removes all listeners immediatly if no xhr pending', async () => {
+    it('returns and removes all listeners immediately if no xhr pending', async () => {
       startServerReturning(OK_NO_XHR);
       const page = await browser.newPage();
       const count = page.listenerCount('request');
-      const pendingXHR = new PendingXHR(page);
+      const pendingXHR = new PendingRequests(page);
       await page.goto(`http://localhost:${port}/go`);
-      await pendingXHR.waitOnceForAllXhrFinished();
-      expect(page.listenerCount('request')).toBe(count);
+      await pendingXHR.waitOnceForAllRequestsFinished();
+      expect(page.listenerCount('request')).toBe(count + 1);
     });
 
     describe('one XHR', () => {
@@ -188,15 +188,15 @@ describe('PendingXHR', () => {
         startServerReturning(getOkWithOneXhr());
         const page = await browser.newPage();
         const count = page.listenerCount('request');
-        const pendingXHR = new PendingXHR(page);
+        const pendingXHR = new PendingRequests(page);
         await page.goto(`http://localhost:${port}/go`);
-        expect(pendingXHR.pendingXhrCount()).toEqual(1);
+        expect(pendingXHR.pendingRequestsCount()).toEqual(1);
         setTimeout(() => {
           request1Resolver!([200, '']);
         }, 0);
-        await pendingXHR.waitOnceForAllXhrFinished();
-        expect(pendingXHR.pendingXhrCount()).toEqual(0);
-        expect(page.listenerCount('request')).toBe(count);
+        await pendingXHR.waitOnceForAllRequestsFinished();
+        expect(pendingXHR.pendingRequestsCount()).toEqual(0);
+        expect(page.listenerCount('request')).toBe(count + 1);
       });
     });
 
@@ -205,18 +205,18 @@ describe('PendingXHR', () => {
         startServerReturning(getOkWithTwoXhr());
         const page = await browser.newPage();
         const count = page.listenerCount('request');
-        const pendingXHR = new PendingXHR(page);
+        const pendingXHR = new PendingRequests(page);
         await page.goto(`http://localhost:${port}/go`);
-        expect(pendingXHR.pendingXhrCount()).toEqual(2);
+        expect(pendingXHR.pendingRequestsCount()).toEqual(2);
         setTimeout(() => {
           request1Resolver!([200, '']);
         }, 0);
         setTimeout(() => {
           request2Resolver!([200, '']);
         }, 0);
-        await pendingXHR.waitOnceForAllXhrFinished();
-        expect(pendingXHR.pendingXhrCount()).toEqual(0);
-        expect(page.listenerCount('request')).toBe(count);
+        await pendingXHR.waitOnceForAllRequestsFinished();
+        expect(pendingXHR.pendingRequestsCount()).toEqual(0);
+        expect(page.listenerCount('request')).toBe(count + 1);
       });
     });
   });
@@ -226,97 +226,97 @@ describe('PendingXHR', () => {
       startServerReturning(OK_NO_XHR);
       const page = await browser.newPage();
       const count = page.listenerCount('request');
-      const pendingXHR = new PendingXHR(page);
+      const pendingXHR = new PendingRequests(page);
       await page.goto(`http://localhost:${port}/go`);
-      await pendingXHR.waitForAllXhrFinished();
+      await pendingXHR.waitForAllRequestsFinished();
       expect(page.listenerCount('request')).toBe(count + 1);
     });
-    it('returns immediatly if no xhr pending count', async () => {
+    it('returns immediately if no xhr pending count', async () => {
       startServerReturning(OK_NO_XHR);
       const page = await browser.newPage();
-      const pendingXHR = new PendingXHR(page);
+      const pendingXHR = new PendingRequests(page);
       await page.goto(`http://localhost:${port}/go`);
-      expect(pendingXHR.pendingXhrCount()).toEqual(0);
-      await pendingXHR.waitForAllXhrFinished();
-      expect(pendingXHR.pendingXhrCount()).toEqual(0);
+      expect(pendingXHR.pendingRequestsCount()).toEqual(0);
+      await pendingXHR.waitForAllRequestsFinished();
+      expect(pendingXHR.pendingRequestsCount()).toEqual(0);
     });
 
     it('waits for 1 xhr to end', async () => {
       startServerReturning(getOkWithOneXhr());
       const page = await browser.newPage();
-      const pendingXHR = new PendingXHR(page);
+      const pendingXHR = new PendingRequests(page);
       await page.goto(`http://localhost:${port}/go`);
-      expect(pendingXHR.pendingXhrCount()).toEqual(1);
+      expect(pendingXHR.pendingRequestsCount()).toEqual(1);
       setTimeout(() => {
         request1Resolver!([200, '']);
       }, 0);
-      await pendingXHR.waitForAllXhrFinished();
-      expect(pendingXHR.pendingXhrCount()).toEqual(0);
+      await pendingXHR.waitForAllRequestsFinished();
+      expect(pendingXHR.pendingRequestsCount()).toEqual(0);
     });
 
     it('can be trigerred multiple times', async () => {
       startServerReturning(getOkWithOneXhr());
       const page = await browser.newPage();
-      const pendingXHR = new PendingXHR(page);
+      const pendingXHR = new PendingRequests(page);
       await page.goto(`http://localhost:${port}/go`);
-      expect(pendingXHR.pendingXhrCount()).toEqual(1);
+      expect(pendingXHR.pendingRequestsCount()).toEqual(1);
       setTimeout(() => {
         request1Resolver!([200, '']);
       }, 0);
-      await pendingXHR.waitForAllXhrFinished();
-      expect(pendingXHR.pendingXhrCount()).toEqual(0);
-      await pendingXHR.waitForAllXhrFinished();
+      await pendingXHR.waitForAllRequestsFinished();
+      expect(pendingXHR.pendingRequestsCount()).toEqual(0);
+      await pendingXHR.waitForAllRequestsFinished();
     });
 
     it('works with Promise.race', async () => {
       startServerReturning(getOkWithOneXhr());
       const page = await browser.newPage();
-      const pendingXHR = new PendingXHR(page);
+      const pendingXHR = new PendingRequests(page);
       await page.goto(`http://localhost:${port}/go`);
       setTimeout(() => {
         request1Resolver!([200, '']);
       }, 200);
       await Promise.race([
-        pendingXHR.waitForAllXhrFinished(),
+        pendingXHR.waitForAllRequestsFinished(),
         new Promise(resolve => {
           setTimeout(resolve, 100);
         }),
       ]);
-      expect(pendingXHR.pendingXhrCount()).toEqual(1);
+      expect(pendingXHR.pendingRequestsCount()).toEqual(1);
 
       await Promise.race([
-        pendingXHR.waitForAllXhrFinished(),
+        pendingXHR.waitForAllRequestsFinished(),
         new Promise(resolve => {
           setTimeout(resolve, 300);
         }),
       ]);
-      expect(pendingXHR.pendingXhrCount()).toEqual(0);
+      expect(pendingXHR.pendingRequestsCount()).toEqual(0);
     });
 
     it('waits for 2 xhr to end', async () => {
       startServerReturning(getOkWithTwoXhr());
       const page = await browser.newPage();
-      const pendingXHR = new PendingXHR(page);
+      const pendingXHR = new PendingRequests(page);
       await page.goto(`http://localhost:${port}/go`);
-      expect(pendingXHR.pendingXhrCount()).toEqual(2);
+      expect(pendingXHR.pendingRequestsCount()).toEqual(2);
       setTimeout(() => {
         request1Resolver!([200, 'first xhr finished']);
       }, 0);
       setTimeout(() => {
         request2Resolver!([200, 'second xhr finished']);
       }, 200);
-      await pendingXHR.waitForAllXhrFinished();
-      expect(pendingXHR.pendingXhrCount()).toEqual(0);
+      await pendingXHR.waitForAllRequestsFinished();
+      expect(pendingXHR.pendingRequestsCount()).toEqual(0);
     });
 
     it('handle correctly failed xhr', async () => {
       startServerReturning(getOkWithOneFailingXhr());
       const page = await browser.newPage();
-      const pendingXHR = new PendingXHR(page);
+      const pendingXHR = new PendingRequests(page);
       await page.goto(`http://localhost:${port}/go`);
-      expect(pendingXHR.pendingXhrCount()).toEqual(1);
-      await pendingXHR.waitForAllXhrFinished();
-      expect(pendingXHR.pendingXhrCount()).toEqual(0);
+      expect(pendingXHR.pendingRequestsCount()).toEqual(1);
+      await pendingXHR.waitForAllRequestsFinished();
+      expect(pendingXHR.pendingRequestsCount()).toEqual(0);
     });
   });
 });
