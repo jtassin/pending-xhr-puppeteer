@@ -1,4 +1,4 @@
-import { Request, Page } from 'puppeteer';
+import { Request, Page } from 'playwright-core';
 
 interface ResolvableRequest extends Request {
   pendingXhrResolver?: () => void;
