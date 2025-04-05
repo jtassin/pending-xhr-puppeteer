@@ -1,3 +1,5 @@
+# [3.0.0](https://github.com/jtassin/pending-xhr-puppeteer/compare/v2.3.4...v3.0.0) (2025-04-05)
+
 ## [2.3.4](https://github.com/jtassin/pending-xhr-puppeteer/compare/v2.3.3...v2.3.4) (2025-04-05)
 
 ## [2.3.3](https://github.com/jtassin/pending-xhr-puppeteer/compare/v2.3.2...v2.3.3) (2020-12-13)
