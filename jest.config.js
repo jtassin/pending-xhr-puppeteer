@@ -13,4 +13,8 @@ module.exports = {
       functions: 100,
     },
   },
+  moduleNameMapper: {
+  "puppeteer-core/internal/puppeteer-core.js": "<rootDir>/node_modules/puppeteer-core/lib/cjs/puppeteer/puppeteer-core.js",
+  "puppeteer-core/internal/node/PuppeteerNode.js": "<rootDir>/node_modules/puppeteer-core/lib/cjs/puppeteer/node/PuppeteerNode.js"
+}
 };

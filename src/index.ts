@@ -1,6 +1,6 @@
-import { Request, Page } from 'puppeteer';
+import { HTTPRequest, Page } from 'puppeteer';
 
-interface ResolvableRequest extends Request {
+interface ResolvableRequest extends HTTPRequest {
   pendingXhrResolver?: () => void;
 }
 
@@ -9,11 +9,11 @@ export class PendingXHR {
 
   resourceType: string;
 
-  pendingXhrs: Set<Request>;
+  pendingXhrs: Set<HTTPRequest>;
 
-  finishedWithSuccessXhrs: Set<Request>;
+  finishedWithSuccessXhrs: Set<HTTPRequest>;
 
-  finishedWithErrorsXhrs: Set<Request>;
+  finishedWithErrorsXhrs: Set<HTTPRequest>;
 
   promisees: Promise<void>[];
 
@@ -70,9 +70,9 @@ export class PendingXHR {
   }
 
   removePageListeners() {
-    this.page.removeListener('request', this.requestListener);
-    this.page.removeListener('requestfailed', this.requestFailedListener);
-    this.page.removeListener('requestfinished', this.requestFinishedListener);
+    this.page.off('request', this.requestListener);
+    this.page.off('requestfailed', this.requestFailedListener);
+    this.page.off('requestfinished', this.requestFinishedListener);
   }
 
   async waitForAllXhrFinished() {
